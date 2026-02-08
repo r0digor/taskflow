@@ -23,8 +23,8 @@ Um aplicativo simples de gerenciamento de tarefas, projeto full-stack desenvolvi
 
 ## Screenshots
 
-![Desktop](./screenshots/desktop.png)
-![Mobile](./screenshots/mobile.png)
+![Desktop](./screenshots/Desktop.png)
+![Mobile](./screenshots/Mobile.png)
 
 ## Como rodar o projeto
 
