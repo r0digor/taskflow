@@ -35,6 +35,25 @@ function App() {
             })
     }
 
+    function toggleTask(id, completed) {
+        fetch(`http://localhost:3001/tasks/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ completed: !completed })
+        })
+            .then(res => res.json())
+            .then(() => {
+                setTasks(tasks.map(task =>
+                    task.id === id ? { ...task, completed: !completed } : task
+                ))
+            })
+            .catch(err => {
+                console.error('Error updating task:', err)
+            })
+    }
+
     return (
         <div style={{ padding: '20px' }}>
             <h1>TaskFlow</h1>
@@ -51,7 +70,14 @@ function App() {
             <ul>
                 {tasks.map(task => (
                     <li key={task.id}>
-                        {task.title}
+                        <label style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                            <input
+                                type="checkbox"
+                                checked={!!task.completed}
+                                onChange={() => toggleTask(task.id, task.completed)}
+                            />
+                            {task.title}
+                        </label>
                     </li>
                 ))}
             </ul>
