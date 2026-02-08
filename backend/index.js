@@ -53,6 +53,29 @@ app.post('/tasks', (req, res) => {
     })
 })
 
+app.put('/tasks/:id', (req, res) => {
+    const { id } = req.params
+    const { completed } = req.body
+
+    if (completed === undefined) {
+        return res.status(400).json({ error: 'Completed field is required' })
+    }
+
+    const query = 'UPDATE tasks SET completed = ? WHERE id = ?'
+
+    db.run(query, [completed ? 1 : 0, id], function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message })
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({ error: 'Task not found' })
+        }
+
+        res.json({ message: 'Task updated successfully' })
+    })
+})
+
 
 const PORT = 3001
 app.listen(PORT, () => {
