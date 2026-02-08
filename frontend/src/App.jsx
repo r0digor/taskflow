@@ -69,32 +69,34 @@ function App() {
 
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div className="app-container">
             <h1>TaskFlow</h1>
 
-            <input
-                type="text"
-                placeholder="Digite uma tarefa"
-                value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-            />
+            <div className="task-input">
+                <input
+                    type="text"
+                    placeholder="Digite uma tarefa..."
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                />
 
-            <button onClick={addTask}>Adicionar</button>
+                <button onClick={addTask}>Adicionar</button>
+            </div>
 
             <ul>
                 {tasks.map(task => (
-                    <li key={task.id} style={{ marginBottom: '8px' }}>
-                        <label style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                    <li key={task.id}>
+                        <div className={`task-title ${task.completed ? 'completed' : ''}`}>
                             <input
                                 type="checkbox"
                                 checked={!!task.completed}
                                 onChange={() => toggleTask(task.id, task.completed)}
                             />
                             {task.title}
-                        </label>
+                        </div>
 
                         <button
-                            style={{ marginLeft: '10px' }}
+                            className="delete-btn"
                             onClick={() => deleteTask(task.id)}
                         >
                             Excluir
