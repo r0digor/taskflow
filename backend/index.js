@@ -31,6 +31,29 @@ app.get('/tasks', (req, res) => {
     })
 })
 
+app.post('/tasks', (req, res) => {
+    const { title } = req.body
+
+    if (!title || title.trim() === '') {
+        return res.status(400).json({ error: 'Title is required' })
+    }
+
+    const query = 'INSERT INTO tasks (title, completed) VALUES (?, ?)'
+
+    db.run(query, [title, 0], function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message })
+        }
+
+        res.status(201).json({
+            id: this.lastID,
+            title,
+            completed: false
+        })
+    })
+})
+
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
