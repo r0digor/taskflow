@@ -54,6 +54,20 @@ function App() {
             })
     }
 
+    function deleteTask(id) {
+        fetch(`http://localhost:3001/tasks/${id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(() => {
+                setTasks(tasks.filter(task => task.id !== id))
+            })
+            .catch(err => {
+                console.error('Error deleting task:', err)
+            })
+    }
+
+
     return (
         <div style={{ padding: '20px' }}>
             <h1>TaskFlow</h1>
@@ -69,7 +83,7 @@ function App() {
 
             <ul>
                 {tasks.map(task => (
-                    <li key={task.id}>
+                    <li key={task.id} style={{ marginBottom: '8px' }}>
                         <label style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
                             <input
                                 type="checkbox"
@@ -78,6 +92,13 @@ function App() {
                             />
                             {task.title}
                         </label>
+
+                        <button
+                            style={{ marginLeft: '10px' }}
+                            onClick={() => deleteTask(task.id)}
+                        >
+                            Excluir
+                        </button>
                     </li>
                 ))}
             </ul>
